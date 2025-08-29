@@ -1,0 +1,129 @@
+<!--begin::Form-->
+          <div class="kt-portlet__body">
+            <div class="row">
+              <div class="col-md-12">
+                <form action="{{ route('admin.studies.index') }}" method="get" novalidate="novalidate">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="Username">الحالة</label>
+                        <select name="status" class="form-control">
+                          <option value=""></option>
+                          <option {{ $status == 'مفعل'? ' selected' : '' }} value="مفعل">مفعل</option>
+                          <option {{ $status == 'غير مفعل'? ' selected' : '' }} value="غير مفعل">غير مفعل</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="Username">الاسم</label>
+                        <input value="{{$name}}" class="form-control m-input m-input--square" name="name" type="text" value="">
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label>البريد الإلكتروني</label>
+                        <input value="{{$email}}" class="form-control m-input m-input--square" id="Name" name="email" type="text" value="">
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <button type="submit" class="btn btn-danger" style="margin-top: 25px;"><i class="la la-search"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+                <div class="table-responsive">
+                  <table class="table table-hover table-striped">
+                    <thead>
+                      <tr>
+                        <th class="text-center" width="10%">#</th>
+                        <th class="text-center">الاسم </th>
+                        <th class="text-center">اسم المستخدم</th>
+                        <th class="text-center">البريد الإلكتروني</th>
+                        <!-- <th class="text-center">تاريخ الميلاد</th>-->
+                        <th class="text-center">الجوال</th>
+                        <th class="text-center">رقم السجل المدني</th>
+                        <th class="text-center">الحالة</th>
+                        <th class="text-center" width="10%"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @if(count($studies) == 0)
+                      <tr>
+                        <td class="text-center" colspan="8">
+                          <div class="alert alert-solid-brand alert-bold" role="alert">
+                            <div class="alert-text">لا يوجد بيانات لعرضها </div>
+                          </div>
+                        </td>
+                      </tr>
+                      @endif
+                      <?php $count = 0;?>
+                      @foreach($studies as $study)
+                      <tr>
+                        <td class="text-center">{{++$count}}</td>
+                        <td class="text-center">{{$study->name}}</td>
+                        <td class="text-center">{{$study->username}}</td>
+                        <td class="text-center" style="color: {{$study->email_verified_at ? '#0abb87' : '#fd397a'}}" title="{{$study->email_verified_at ? 'ايميل مفعل' : 'ايميل غير مفعل'}}">{{$study->email}}</td>
+                        <!-- <td class="text-center">{{$study->birthday}}</td>-->
+                        <td class="text-center">{{$study->mobile}}</td>
+                        <td class="text-center">{{$study->identity}}</td>
+                        <td class="text-center">
+                          <span class="btn btn-bold btn-sm btn-font-sm {{$study->status == 'مفعل'? 'btn-label-success' :'btn-label-danger'}}">{{$study->status}}</span>
+                        </td>
+                        <td class="fitwidth">
+                          <div class="kt-widget2__actions">
+                            <a href="#" class="btn btn-clean btn-sm btn-icon btn-icon-md" data-toggle="dropdown" aria-expanded="false">
+                            <i class="flaticon-more-1"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right" x-placement="top-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(15px, 5px, 0px);">
+                              <ul class="kt-nav">
+                                <li class="kt-nav__item" style="float: center;">
+                                  <a href="{{ route('admin.studies.edit', ['user' => $study->id]) }}" class="kt-nav__link"> 
+                                  <i class="kt-nav__link-icon fa fa-edit"></i>
+                                  <span class="kt-nav__link-text">تعديل</span>
+                                  </a>
+                                </li>
+                                <li class="kt-nav__item" style="float: center;">
+                                  <a href="{{ route('admin.studies.details', ['id' => $study->id]) }}" class="kt-nav__link"> 
+                                  <i class="kt-nav__link-icon fa fa-eye"></i>
+                                  <span class="kt-nav__link-text">النفاصيل</span>
+                                  </a>
+                                </li>
+                                <li class="kt-nav__item" style="float: center;">
+                                  <a href="http://wa.me/{{$mobile}}" class="kt-nav__link"> 
+                                  <i class="kt-nav__link-icon fab fa-whatsapp"></i>
+                                  <span class="kt-nav__link-text">واتساب</span>
+                                  </a>
+                                </li>
+                                <li class="kt-nav__item">
+                                  <form method="post" class="form-inline" action="{{ route('admin.studies.destroy', ['user' => $study->id]) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button onclick="return confirm('هل أنت متأكد من حذف المستخدم ؟')" style="margin-right: 12px;" type="submit" class="btn btn-elevate btn-pill">
+                                    <i class="kt-nav__link-icon fa fa-trash"></i>
+                                    <span class="kt-nav__link-text">حذف</span>
+                                    </button>
+                                  </form>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                      @endforeach
+                    </tbody>
+                  </table>
+                  <div class="text-center">
+                    <div class="ls-button-group demo-btn ls-table-pagination">
+                      <div class="pagination-container">
+                        {{$studies->links()}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="kt-portlet__foot"></div>
+          <!--end::Form-->

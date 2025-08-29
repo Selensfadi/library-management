@@ -1,4 +1,5 @@
-@extends('layouts.app')
+@extends('layouts.template')
+
 @section('title','Edit Order')
 
 @section('content')
