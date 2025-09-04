@@ -1,47 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Library System')</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>@yield('title', 'Library')</title>
 
-    <!-- Bootstrap CSS -->
-    <link href="{{ asset('template/assets/css/style.bundle.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('template/assets/css/style.bundle.css') }}" rel="stylesheet">
+ 
+  {{-- <link href="{{ asset('template/assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css"> --}}
 
-    <!-- أي CSS إضافي -->
-    @stack('styles')
+  {{-- Metronic styles --}}
+  <link href="{{ asset('template/assets/css/demo1/style.bundle.min.css') }}" rel="stylesheet" type="text/css">
 </head>
-<body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{{ url('/') }}">Library</a>
-            <div class="collapse navbar-collapse">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link" href="{{ route('categories.index') }}">Categories</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('books.index') }}">Books</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('orders.index') }}">Orders</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('users.index') }}">Users</a></li>
-                </ul>
+
+<body id="kt_app_body" data-kt-app-layout="light-header" class="app-default">
+
+
+  <div class="d-flex flex-column flex-root" id="kt_app_root">
+ 
+    <div class="app-page flex-column flex-column-fluid" id="kt_app_page">
+
+    
+      @includeIf('layouts.partials.header')
+
+      {{-- Wrapper --}}
+      <div class="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
+
+     
+        {{-- @includeIf('layouts.partials.sidebar') --}}
+
+        {{-- Main --}}
+        <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
+          {{-- Content Wrapper --}}
+          <div class="d-flex flex-column flex-column-fluid">
+         
+            {{-- <div class="app-toolbar py-3 py-lg-6" id="kt_app_toolbar"> ... </div> --}}
+
+            {{-- Content --}}
+            <div class="app-content flex-column-fluid" id="kt_app_content">
+              <div class="container-xxl">
+                @yield('content')
+              </div>
             </div>
+          </div>
+
+          {{-- Footer --}}
+          @includeIf('layouts.partials.footer')
         </div>
-    </nav>
-
-    <!-- Main Content -->
-    <div class="container mt-4">
-        @yield('content')
+      </div>
     </div>
+  </div>
 
-    <!-- Footer -->
-    <footer class="bg-dark text-white text-center p-3 mt-5">
-        <p>&copy; {{ date('Y') }} Library Management System</p>
-    </footer>
+ 
+  <script src="{{ asset('template/assets/plugins/global/plugins.bundle.js') }}"></script>
 
-    <!-- JS (Metronic Bundle) -->
-    <script src="{{ asset('template/assets/js/scripts.bundle.min.js') }}"></script>
+  <script src="{{ asset('template/assets/js/scripts.bundle.min.js') }}"></script>
 
-    <!-- أي سكربتات إضافية -->
-    @stack('scripts')
+ 
+  @stack('scripts')
 </body>
 </html>
+
